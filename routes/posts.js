@@ -79,11 +79,11 @@ router.post("/", async (req, res) => {
 router.put("/likes/:postId", async (req, res) => {
     try {
       const post = await PostsModel.findById(req.params.postId);
-      const updatedLikes = post.likes + req.body.likes;
+      //const updatedLikes = post.likes + req.body.likes;
       
       const updatedPost = await PostsModel.findByIdAndUpdate(
         req.params.postId,
-        { $set: { likes: updatedLikes } },
+        { $set: { likes: req.body.likes } },
         { new: true }
       );
       
@@ -96,11 +96,11 @@ router.put("/likes/:postId", async (req, res) => {
 router.put("/dislikes/:postId", async (req, res) => {
     try {
       const post = await PostsModel.findById(req.params.postId);
-      const updatedDislikes = post.dislikes + req.body.dislikes;
+      //const updatedDislikes = post.dislikes + req.body.dislikes;
       
       const updatedPost = await PostsModel.findByIdAndUpdate(
         req.params.postId,
-        { $set: { dislikes: updatedDislikes } },
+        { $set: { dislikes: req.body.dislikes } },
         { new: true }
       );
       
@@ -109,6 +109,20 @@ router.put("/dislikes/:postId", async (req, res) => {
       res.status(500).json(err);
     }
   });
+
+
+
+  router.get("/deleteAll", async (req, res) => {
+    try {
+      await PostsModel.deleteMany({});
+      console.log("Todos os documentos foram deletados com sucesso.");
+      res.json({ message: "Todos os documentos foram deletados com sucesso." });
+    } catch (error) {
+      console.error("Erro ao deletar os documentos:", error);
+      res.status(500).json({ error: "Erro ao deletar os documentos" });
+    }
+  });
+  
 
 
 

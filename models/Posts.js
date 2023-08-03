@@ -21,6 +21,10 @@ const postSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export const PostsModel = mongoose.model("Posts", postSchema);
